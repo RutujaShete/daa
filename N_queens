@@ -1,0 +1,41 @@
+def is_safe(grid, x, y, n):
+    # Check if there's a queen in the same column
+    for i in range(x):
+        if grid[i][y] == 1:
+            return False
+    
+    # Check the upper left diagonal
+    i, j = x, y
+    while i >= 0 and j >= 0:
+        if grid[i][j] == 1:
+            return False
+        i -= 1
+        j -= 1
+
+    # Check the upper right diagonal
+    i, j = x, y
+    while i >= 0 and j < n:
+        if grid[i][j] == 1:
+            return False
+        i -= 1
+        j += 1
+
+    return True
+
+def n_queen(grid, x, n, op):
+    if x >= n:
+        print(op)
+        return
+
+    for y in range(n):
+        if is_safe(grid, x, y, n):
+            grid[x][y] = 1
+            n_queen(grid, x + 1, n, op + f"({x},{y}) ")
+            grid[x][y] = 0
+
+n = int(input("Enter Values: "))
+if n in [4, 8, 16, 32]:
+    grid = [[0 for j in range(n)] for i in range(n)]
+    n_queen(grid, 0, n, "")
+else:
+    print("No Solution")
